@@ -6,7 +6,7 @@
 <!-- 該当するプロジェクトの中から任意のものを選ぶ-->
 <p style="display: inline">
   <!-- フロントエンドのフレームワーク一覧 -->
-  <img src="https://img.shields.io/badge/-Bootstrap-563D7C.svg?logo=bootstrap&style=plastic">
+  <img src="https://img.shields.io/badge/-Bootstrap-563D7C.svg?logo=bootstrap&style=for-the-badge">
   <!-- バックエンドのフレームワーク一覧 -->
   <img src="https://img.shields.io/badge/-Django-092E20.svg?logo=django&style=for-the-badge">
   <!-- バックエンドの言語一覧 -->
