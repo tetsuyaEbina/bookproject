@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     # function-based view
     path('', views.index_view, name='index'),
+    # path('logout/', views.logout_view, name='logout'),
     # class-based view
     path('book', views.ListBookView.as_view(), name='list-book'),
     path('book/<int:pk>/detail/', views.DetailBookView.as_view(), name='detail-book'),
