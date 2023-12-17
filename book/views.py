@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 # from django.views.generic import ListView
 # from django.views.generic import DetailView
 # from django.views.generic import CreateView
@@ -12,7 +12,7 @@ from django.views.generic import (
     DeleteView,
     UpdateView,
 )
-from .models import Book
+from .models import Book, Review
 
 # Create your views here.
 class ListBookView(ListView):
@@ -39,6 +39,21 @@ class UpdateBookView(UpdateView):
     model         = Book
     fields        = ('title', 'text', 'category')
     success_url   = reverse_lazy('list-book')
+
+class CreateReviewView(CreateView):
+    model         = Review
+    fields        = ('book', 'title', 'text', 'rate')
+    template_name = 'book/review_form.html'
+    # CreateViewのget_context_dataを上書きする
+    def get_context_data(self, **kwargs):
+        context         = super().get_context_data(**kwargs)
+        context['book'] = Book.objects.get(pk=self.kwargs['book_id'])
+        return context
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+    def get_success_url(self):
+        return reverse('detail-book', kwargs={'pk':self.object.book.id})
 
 # renderについて
 # Django内部では、requestオブジェクトを受け取り、responseオブジェクトを返す。
