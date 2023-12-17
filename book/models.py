@@ -6,8 +6,9 @@ RATE_CHOICES = [(x, str(x))  for x in range(0, MAX_RATE + 1)]
 CATEGORY = (('business', 'ビジネス'),('life', '生活'),('other', 'その他'))
 
 class Book(models.Model):
-    title    = models.CharField(max_length = 100)
-    text     = models.TextField()
+    title     = models.CharField(max_length = 100)
+    text      = models.TextField()
+    thumbnail = models.ImageField(null=True, blank=True) # 基本的に、null, blankはセットで設定する
     category = models.CharField(
         max_length = 100,
         choices = CATEGORY
