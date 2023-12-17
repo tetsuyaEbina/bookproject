@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # from django.views.generic import ListView
 # from django.views.generic import DetailView
 # from django.views.generic import CreateView
@@ -15,32 +17,33 @@ from django.views.generic import (
 from .models import Book, Review
 
 # Create your views here.
-class ListBookView(ListView):
+# codeは左側から実行される為、順番も留意する
+class ListBookView(LoginRequiredMixin, ListView):
     template_name = 'book/book_list.html'
     model         = Book
 
-class DetailBookView(DetailView):
+class DetailBookView(LoginRequiredMixin, DetailView):
     template_name = 'book/book_detail.html'
     model         = Book
 
-class CreateBookView(CreateView):
+class CreateBookView(LoginRequiredMixin, CreateView):
     template_name = 'book/book_create.html'
     model         = Book
     fields        = ('title', 'text', 'category', 'thumbnail')
     success_url   = reverse_lazy('list-book')
 
-class DeleteBookView(DeleteView):
+class DeleteBookView(LoginRequiredMixin, DeleteView):
     template_name = 'book/book_confirm_delete.html'
     model         = Book
     success_url   = reverse_lazy('list-book')
 
-class UpdateBookView(UpdateView):
+class UpdateBookView(LoginRequiredMixin, UpdateView):
     template_name = 'book/book_update.html'
     model         = Book
     fields        = ('title', 'text', 'category', 'thumbnail')
     success_url   = reverse_lazy('list-book')
 
-class CreateReviewView(CreateView):
+class CreateReviewView(LoginRequiredMixin, CreateView):
     model         = Review
     fields        = ('book', 'title', 'text', 'rate')
     template_name = 'book/review_form.html'
