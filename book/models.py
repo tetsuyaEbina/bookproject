@@ -9,7 +9,8 @@ class Book(models.Model):
     title     = models.CharField(max_length = 100)
     text      = models.TextField()
     thumbnail = models.ImageField(null=True, blank=True) # 基本的に、null, blankはセットで設定する
-    category = models.CharField(
+    user      = models.ForeignKey('auth.User', on_delete = models.CASCADE)
+    category  = models.CharField(
         max_length = 100,
         choices = CATEGORY
     )
