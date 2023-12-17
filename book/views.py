@@ -39,3 +39,13 @@ class UpdateBookView(UpdateView):
     model         = Book
     fields        = ('title', 'text', 'category')
     success_url   = reverse_lazy('list-book')
+
+# renderについて
+# Django内部では、requestオブジェクトを受け取り、responseオブジェクトを返す。
+# renderの第一引数は、request
+# renderの第二引数は、表示するtemplate
+# renderの第三引数は、使うデータの指定
+def index_view(request):
+    # object_list = Book.objects.all() 一覧表示
+    object_list = Book.objects.order_by('category') # カテゴリによるソート
+    return render(request, 'book/index.html', {'object_list':object_list})
