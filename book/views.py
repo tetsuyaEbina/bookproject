@@ -8,6 +8,7 @@ from django.urls import reverse, reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.db.models import Avg
+from django.core.paginator import Paginator
 
 # from django.views.generic import ListView
 # from django.views.generic import DetailView
@@ -22,6 +23,7 @@ from django.views.generic import (
     UpdateView,
 )
 from .models import Book, Review
+from .consts import ITEM_PER_PAGE
 
 # Create your views here.
 # codeは左側から実行される為、順番も留意する
@@ -91,8 +93,15 @@ def index_view(request):
     # object_list = Book.objects.all() 一覧表示
     object_list  = Book.objects.order_by('-id') # -をつけることで、降順になる
     ranking_list = Book.objects.annotate(avg_rating=Avg('review__rate')).order_by('-avg_rating') # annotateで計算した結果を追加する
+
+    paginator     = Paginator(ranking_list, ITEM_PER_PAGE) # ranking_listをITEM_PER _PAGEで分割する
+    # request.GET['number']で、method GETのパラメータ'number'を取得できる
+    page_number   = request.GET.get('page', 1) # request.GET.get('page', 1)でpageというクエリパラメータが付与されていればそのvalueを返し、付与されていない場合は1を返す
+    page_obj      = paginator.page(page_number)
+    item_per_page = ITEM_PER_PAGE
+
     return render(
         request, 
         'book/index.html', 
-        {'object_list':object_list, 'ranking_list':ranking_list}
+        {'object_list':object_list, 'ranking_list':ranking_list, 'page_obj':page_obj, 'item_per_page':item_per_page}
     )
