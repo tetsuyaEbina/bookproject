@@ -8,6 +8,13 @@
     <div class="card-body">
         <p class="card-text"> {{ object.text }}</p>
         <div class="border p-4 mb-2">
+
+            <!-- 子(xxx)モデルから、親(yyy)モデルを取得する際は、以下のコードを記載 -->
+            <!-- xxx.yyy -->
+
+            <!-- 親(yyy)モデルから、子(xxx)モデルを取得する際は、以下のコードを記載 -->
+            <!-- yyy.xxx_set.all -->
+            <!-- yyyは、今回は、object -->
             {% for review in object.review_set.all %}
             <div>
                 <h3 class="h4">{{ review.title  }}</h3>
